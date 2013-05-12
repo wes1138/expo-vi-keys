@@ -64,7 +64,7 @@
 				</option>
 				<option name="prev_vp_button" type="button">
 					<_short>Previous viewport</_short>
-					<_long>Button binding to switch to next viewport in expo</_long>
+					<_long>Button binding to switch to previous viewport in expo</_long>
 					<default>Button4</default>
 					<passive_grab>false</passive_grab>
 					<internal/>
@@ -79,6 +79,11 @@
 					<min>0.1</min>
 					<max>5.0</max>
 					<precision>0.1</precision>
+				</option>
+				<option name="use_vi_keys" type="bool">
+					<_short>Vi keys</_short>
+					<_long>Use h,j,k,l to navigate view ports in expo mode</_long>
+					<default>true</default>
 				</option>
 				<option name="expo_immediate_move" type="bool">
 					<_short>Immediate moves</_short>

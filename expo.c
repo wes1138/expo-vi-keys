@@ -1674,10 +1674,20 @@ expoInitDisplay (CompPlugin  *p,
     expoSetPrevVpButtonInitiate (d, expoPrevVp);
 
 
-    ed->leftKey  = XKeysymToKeycode (d->display, XStringToKeysym ("Left"));
-    ed->rightKey = XKeysymToKeycode (d->display, XStringToKeysym ("Right"));
-    ed->upKey    = XKeysymToKeycode (d->display, XStringToKeysym ("Up"));
-    ed->downKey  = XKeysymToKeycode (d->display, XStringToKeysym ("Down"));
+	if (expoGetUseViKeys(d))
+	{
+		ed->leftKey  = XKeysymToKeycode (d->display, XStringToKeysym ("h"));
+		ed->rightKey = XKeysymToKeycode (d->display, XStringToKeysym ("l"));
+		ed->upKey    = XKeysymToKeycode (d->display, XStringToKeysym ("k"));
+		ed->downKey  = XKeysymToKeycode (d->display, XStringToKeysym ("j"));
+	}
+	else
+	{
+		ed->leftKey  = XKeysymToKeycode (d->display, XStringToKeysym ("Left"));
+		ed->rightKey = XKeysymToKeycode (d->display, XStringToKeysym ("Right"));
+		ed->upKey	= XKeysymToKeycode (d->display, XStringToKeysym ("Up"));
+		ed->downKey  = XKeysymToKeycode (d->display, XStringToKeysym ("Down"));
+	}
 
     WRAP (ed, d, handleEvent, expoHandleEvent);
     d->base.privates[displayPrivateIndex].ptr = ed;
