@@ -1639,6 +1639,26 @@ expoDonePaintScreen (CompScreen * s)
     }
 }
 
+static void
+expoViKeysNotify(CompDisplay *d, CompOption *opt, ExpoDisplayOptions num)
+{
+	EXPO_DISPLAY (d);
+	if (opt->value.b)
+	{
+		ed->leftKey  = XKeysymToKeycode (d->display, XStringToKeysym ("h"));
+		ed->rightKey = XKeysymToKeycode (d->display, XStringToKeysym ("l"));
+		ed->upKey    = XKeysymToKeycode (d->display, XStringToKeysym ("k"));
+		ed->downKey  = XKeysymToKeycode (d->display, XStringToKeysym ("j"));
+	}
+	else
+	{
+		ed->leftKey  = XKeysymToKeycode (d->display, XStringToKeysym ("Left"));
+		ed->rightKey = XKeysymToKeycode (d->display, XStringToKeysym ("Right"));
+		ed->upKey	= XKeysymToKeycode (d->display, XStringToKeysym ("Up"));
+		ed->downKey  = XKeysymToKeycode (d->display, XStringToKeysym ("Down"));
+	}
+}
+
 static Bool
 expoInitDisplay (CompPlugin  *p,
 		 CompDisplay *d)
@@ -1673,6 +1693,7 @@ expoInitDisplay (CompPlugin  *p,
     expoSetNextVpButtonInitiate (d, expoNextVp);
     expoSetPrevVpButtonInitiate (d, expoPrevVp);
 
+	expoSetUseViKeysNotify(d, expoViKeysNotify);
 
 	if (expoGetUseViKeys(d))
 	{
