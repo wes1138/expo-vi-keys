@@ -67,6 +67,7 @@ typedef struct _ExpoDisplay
     KeyCode rightKey;
     KeyCode upKey;
     KeyCode downKey;
+	Bool    torusNav;
 } ExpoDisplay;
 
 typedef struct _ExpoScreen
@@ -159,14 +160,23 @@ expoMoveFocusViewport (CompScreen *s,
 		       int        dy)
 {
     EXPO_SCREEN (s);
+	EXPO_DISPLAY(s->display);
 
-    es->selectedVX += dx;
-    es->selectedVY += dy;
+	if (ed->torusNav)
+	{
+		es->selectedVX = (s->hsize + es->selectedVX + dx) % s->hsize;
+		es->selectedVY = (s->vsize + es->selectedVY + dy) % s->vsize;
+	}
+	else
+	{
+		es->selectedVX += dx;
+		es->selectedVY += dy;
 
-    es->selectedVX = MIN (s->hsize - 1, es->selectedVX);
-    es->selectedVX = MAX (0, es->selectedVX);
-    es->selectedVY = MIN (s->vsize - 1, es->selectedVY);
-    es->selectedVY = MAX (0, es->selectedVY);
+		es->selectedVX = MIN (s->hsize - 1, es->selectedVX);
+		es->selectedVX = MAX (0, es->selectedVX);
+		es->selectedVY = MIN (s->vsize - 1, es->selectedVY);
+		es->selectedVY = MAX (0, es->selectedVY);
+	}
 
     damageScreen (s);
 }
@@ -1659,6 +1669,13 @@ expoViKeysNotify(CompDisplay *d, CompOption *opt, ExpoDisplayOptions num)
 	}
 }
 
+static void
+expoTorusNavNotify(CompDisplay *d, CompOption *opt, ExpoDisplayOptions num)
+{
+	EXPO_DISPLAY (d);
+	ed->torusNav = opt->value.b;
+}
+
 static Bool
 expoInitDisplay (CompPlugin  *p,
 		 CompDisplay *d)
@@ -1694,6 +1711,7 @@ expoInitDisplay (CompPlugin  *p,
     expoSetPrevVpButtonInitiate (d, expoPrevVp);
 
 	expoSetUseViKeysNotify(d, expoViKeysNotify);
+	expoSetTorusNavigationNotify(d, expoTorusNavNotify);
 
 	if (expoGetUseViKeys(d))
 	{
@@ -1709,6 +1727,7 @@ expoInitDisplay (CompPlugin  *p,
 		ed->upKey	= XKeysymToKeycode (d->display, XStringToKeysym ("Up"));
 		ed->downKey  = XKeysymToKeycode (d->display, XStringToKeysym ("Down"));
 	}
+	ed->torusNav = expoGetTorusNavigation(d);
 
     WRAP (ed, d, handleEvent, expoHandleEvent);
     d->base.privates[displayPrivateIndex].ptr = ed;

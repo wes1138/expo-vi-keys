@@ -85,6 +85,11 @@
 					<_long>Use h,j,k,l to navigate view ports in expo mode</_long>
 					<default>true</default>
 				</option>
+				<option name="torus_navigation" type="bool">
+					<_short>Torus navigation</_short>
+					<_long>Navigating in expo mode will wrap back around</_long>
+					<default>true</default>
+				</option>
 				<option name="expo_immediate_move" type="bool">
 					<_short>Immediate moves</_short>
 					<_long>Selects if windows movements in expo mode should be immediate - this among other things disables wobbliness</_long>
