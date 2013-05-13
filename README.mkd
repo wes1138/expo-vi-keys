@@ -1,0 +1,22 @@
+# Expo Vi-Keys
+
+## About
+
+Teeny-tiny, genuinely minuscule patch to Compiz (0.8) expo plugin which
+(optionally) provides:
+
+* Vi-like navigation of view ports via `h,j,k,l` keys.
+* Navigation which wraps around the boundaries ("torus navigation")
+
+## Installation / usage
+
+1. Clone repository.
+1. Run `make`
+1. Run `make install`
+1. Re-start compiz
+
+The new options will show up in expo's "Behavior" tab in `ccsm`.
+
+**NOTE:** no need for `sudo`, as the install target will place the plugin in
+~/.compiz/plugins/ which will override the default expo library.
+
